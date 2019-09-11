@@ -70,10 +70,14 @@ insert = undefined
 search = undefined
 
 --retorna o elmento maximo da BST
-maximum = undefined
+maximum NIL = Nothing
+maximum (Node a _ NIL) = a
+maximum (Node a _ right) = maximum right
 
 --retorna o elemento minimo da BST
-minimum = undefined
+minimum NIL = Nothing
+minimum (Node a NIL _) = a
+minimum (Node a left _) = minimum left
 
 --retorna o predecessor de um elemento da BST, caso o elemento esteja na BST
 predecessor = undefined
