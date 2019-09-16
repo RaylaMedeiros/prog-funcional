@@ -61,29 +61,45 @@ sizeBST NIL = 0
 sizeBST (Node a left right) = 1 + sizeBST left + sizeBST right
 
 --verifica se uma BT é uma BST
-isBST = undefined
+isBST NIL = True
+isBST (Node a left right) = (isGreater a (getList(left))) && (isSmaller a (getList(right)))
+
+getList NIL = []
+getList (Node a left right) = [a]++(getList left)++(getList right)
+
+isGreater _ [] = True
+isGreater a (x:xs) = (a >= x) && (isGreater a xs)
+
+isSmaller _ [] = True
+isSmaller a (x:xs) = (a < x) && (isSmaller a xs)
 
 --insere uma nova chave na BST retornando a BST modificada
-insert = undefined
+insert x NIL = (Node x NIL NIL)
+insert x (Node a left right) | a > x  = (Node a (insert x left) right)
+                             | otherwise = (Node a left (insert x right))
 
 --retorna o Node da BST contendo o dado procurado ou entao NIL
-search = undefined
+search x NIL = NIL
+search x (Node a left right) | a == x = (Node a left right)
+                             | a > x = (search x left)
+                             | otherwise = (search x right)
 
 --retorna o elmento maximo da BST
-maximum NIL = Nothing
-maximum (Node a _ NIL) = a
-maximum (Node a _ right) = maximum right
+maximumValue NIL = NIL
+maximumValue (Node a left NIL) = (Node a left NIL)
+maximumValue (Node a left right) = (maximumValue right)
 
 --retorna o elemento minimo da BST
-minimum NIL = Nothing
-minimum (Node a NIL _) = a
-minimum (Node a left _) = minimum left
+minimumValue NIL = NIL
+minimumValue (Node a NIL right) = (Node a NIL right)
+minimumValue (Node a left right) = minimumValue left
 
 --retorna o predecessor de um elemento da BST, caso o elemento esteja na BST
-predecessor = undefined
+predecessor x NIL = NIL
+predecessor x (Node a left right) | (search x (Node a left right)) != NIL = (predecessor' x )
 
 --retorna o sucessor de um elemento da BST, caso o elemento esteja na BST
-successor = undefined
+suc                                                                  essor = undefined
 
 --remove ume lemento da BST
 remove = undefined
