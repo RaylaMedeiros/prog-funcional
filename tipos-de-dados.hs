@@ -62,10 +62,7 @@ sizeBST (Node a left right) = 1 + sizeBST left + sizeBST right
 
 --verifica se uma BT é uma BST
 isBST NIL = True
-isBST (Node a left right) = (isGreater a (getList(left))) && (isSmaller a (getList(right)))
-
-getList NIL = []
-getList (Node a left right) = [a]++(getList left)++(getList right)
+isBST (Node a left right) = (isGreater a (preOrder(left))) && (isSmaller a (preOrder(right)))
 
 isGreater _ [] = True
 isGreater a (x:xs) = (a >= x) && (isGreater a xs)
@@ -96,15 +93,31 @@ minimumValue (Node a left right) = minimumValue left
 
 --retorna o predecessor de um elemento da BST, caso o elemento esteja na BST
 predecessor x NIL = NIL
-predecessor x (Node a left right) | (search x (Node a left right)) != NIL = (predecessor' x )
+predecessor x (Node a left right) | node == NIL = NIL
+                                  | (maximumChild != NIL) = maximumChild
+                                  | otherwise = (searchFather node)
+    where node = (search x (Node a left right))
+          maximumChild = (maximumValue (getLeftTree node))
+
+getLeftTree (Node a l r) = l
+
+searchFather x NIL _ = NIL
+searchFather x (Node a left right) father | x == a = father
+                                          | x < a = (searchFather x left (Node a left right))
+                                          | otherwise = (searchFather x right (Node a left right))
 
 --retorna o sucessor de um elemento da BST, caso o elemento esteja na BST
-suc                                                                  essor = undefined
+sucessor = undefined
 
---remove ume lemento da BST
-remove = undefined
+--remove um elemento da BST
+remove x NIL = NIL
 
 --retorna uma lista com os dados da BST nos diversos tipos de caminhamento
-preOrder = undefined
-order = undefined
-postOrder = undefined
+preOrder NIL = []
+preOrder (Node a left right) = [a]++(preOrder left)++(preOrder right)
+
+order NIL = []
+order (Node a left right) = (order left)++[a]++(order right)
+
+postOrder NIL = []
+postOrder (Node a left right) = (postOrder left)++(postOrder right)++[a]
