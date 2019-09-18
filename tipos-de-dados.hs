@@ -94,10 +94,15 @@ minimumValue (Node a left right) = minimumValue left
 --retorna o predecessor de um elemento da BST, caso o elemento esteja na BST
 predecessor x NIL = NIL
 predecessor x (Node a left right) | node == NIL = NIL
-                                  | (maximumChild != NIL) = maximumChild
-                                  | otherwise = (searchFather node)
+                                  | maximumChild /= NIL = maximumChild
+                                  | otherwise = (predecessorFather x father (Node a left right)) 
     where node = (search x (Node a left right))
           maximumChild = (maximumValue (getLeftTree node))
+          father = (searchFather x (Node a left right) NIL)
+
+predecessorFather x NIL _ = NIL
+predecessorFather x (Node a left right) tree | x > a = (Node a left right)
+                                             | otherwise = predecessorFather x (searchFather a tree NIL) tree
 
 getLeftTree (Node a l r) = l
 
@@ -107,7 +112,19 @@ searchFather x (Node a left right) father | x == a = father
                                           | otherwise = (searchFather x right (Node a left right))
 
 --retorna o sucessor de um elemento da BST, caso o elemento esteja na BST
-sucessor = undefined
+sucessor x NIL = NIL
+sucessor x (Node a left right) | node == NIL = NIL
+                                  | minimumChild /= NIL = minimumChild
+                                  | otherwise = (sucessorFather x father (Node a left right))
+    where node = (search x (Node a left right))
+          minimumChild = (minimumValue (getRightTree node))
+          father = (searchFather x (Node a left right) NIL)
+
+sucessorFather x NIL _ = NIL
+sucessorFather x (Node a left right) tree | x < a = (Node a left right)
+                                          | otherwise = sucessorFather x (searchFather a tree NIL) tree
+
+getRightTree (Node a l r) = r
 
 --remove um elemento da BST
 remove x NIL = NIL
